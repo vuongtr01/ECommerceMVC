@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using ECommerceMVC.Data;
 using ECommerceMVC.ViewModels;
@@ -54,6 +55,31 @@ namespace ECommerceMVC.Controllers
                 MoTaNgan = p.MoTaDonVi ?? "",
                 TenLoai = p.MaLoaiNavigation.TenLoai
             });
+            return View(result);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            var data = db.HangHoas
+                .Include(p => p.MaLoaiNavigation)
+                .SingleOrDefault(p => p.MaHh == id);
+            if (data == null)
+            {
+                TempData["Message"] = $"Cannot find item with id {id}";
+                return Redirect("/404");
+            }
+            var result = new HangHoaDetailVM
+            {
+                MaHH = data.MaHh,
+                TenHH = data.TenHh,
+                DonGia = data.DonGia ?? 0,
+                ChiTiet = data.MoTa ?? "",
+                DiemDanhGia = 5,
+                Hinh = data.Hinh ?? "",
+                MoTaNgan = data.MoTaDonVi ?? "",
+                TenLoai = data.MaLoaiNavigation.TenLoai,
+                SoLuongTon = 10
+            };
             return View(result);
         }
     }
