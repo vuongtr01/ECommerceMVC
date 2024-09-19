@@ -27,6 +27,8 @@
     <None Remove="ViewModels\" />
     <None Remove="Views\Shared\Components\" />
     <None Remove="Views\Shared\Components\Menu\" />
+    <None Remove="Helpers\" />
+    <None Remove="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -35,5 +37,7 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Shared\Components\" />
     <Folder Include="Views\Shared\Components\Menu\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Views\Cart\" />
   </ItemGroup>
 </Project>
