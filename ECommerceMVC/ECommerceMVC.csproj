@@ -29,6 +29,7 @@
     <None Remove="Views\Shared\Components\Menu\" />
     <None Remove="Helpers\" />
     <None Remove="Views\Cart\" />
+    <None Remove="Views\Shared\Components\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -39,5 +40,6 @@
     <Folder Include="Views\Shared\Components\Menu\" />
     <Folder Include="Helpers\" />
     <Folder Include="Views\Cart\" />
+    <Folder Include="Views\Shared\Components\Cart\" />
   </ItemGroup>
 </Project>

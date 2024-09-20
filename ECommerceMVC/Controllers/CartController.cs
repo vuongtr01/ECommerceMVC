@@ -19,8 +19,7 @@ namespace ECommerceMVC.Controllers
         {
             this.db = context;
         }
-        const string CART_KEY = "MYCART";
-        public List<CardItem> Cart => HttpContext.Session.Get<List<CardItem>>(CART_KEY) ?? new List<CardItem>();
+        public List<CardItem> Cart => HttpContext.Session.Get<List<CardItem>>(Constants.CART_KEY) ?? new List<CardItem>();
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -53,7 +52,7 @@ namespace ECommerceMVC.Controllers
                 item.SoLuong += quantity;
             }
 
-            HttpContext.Session.Set(CART_KEY, currentCart);
+            HttpContext.Session.Set(Constants.CART_KEY, currentCart);
             return RedirectToAction("index");
         }
 
@@ -65,7 +64,7 @@ namespace ECommerceMVC.Controllers
             if (item != null)
             {
                 currentCart.Remove(item);
-                HttpContext.Session.Set(CART_KEY, currentCart);
+                HttpContext.Session.Set(Constants.CART_KEY, currentCart);
             }
             return RedirectToAction("index");
         }
