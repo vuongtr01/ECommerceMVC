@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Data\" />
@@ -30,6 +31,7 @@
     <None Remove="Helpers\" />
     <None Remove="Views\Cart\" />
     <None Remove="Views\Shared\Components\Cart\" />
+    <None Remove="Views\Customer\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -41,5 +43,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Shared\Components\Cart\" />
+    <Folder Include="Views\Customer\" />
   </ItemGroup>
 </Project>
