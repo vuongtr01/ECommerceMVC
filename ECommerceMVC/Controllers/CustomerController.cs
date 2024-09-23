@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using ECommerceMVC.Data;
 using ECommerceMVC.ViewModels;
 using AutoMapper;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -66,6 +71,78 @@ namespace ECommerceMVC.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult LogIn(string? returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LogIn(LoginVM model, string? returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            if(ModelState.IsValid)
+            {
+                var customer = db.KhachHangs.SingleOrDefault(c => c.MaKh == model.UserName);
+                if(customer == null)
+                {
+                    ModelState.AddModelError("error", "Username is not exist");
+                } else
+                {
+                    if (!customer.HieuLuc)
+                    {
+                        ModelState.AddModelError("error", "User is not active. Contact Admin!!!");
+                    }
+                    else
+                    {
+                        if (customer.MatKhau != model.Password.ToMd5Hash(customer.RandomKey))
+                        {
+                            ModelState.AddModelError("error", "Password is incorrect");
+                        }
+                        else
+                        {
+                            var claims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.Email, customer.Email),
+                                new Claim(ClaimTypes.Name, customer.HoTen),
+                                new Claim("CustomerId", customer.MaKh),
+                                new Claim(ClaimTypes.Role, "Customer")
+                            };
+
+                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            var claimsPrinciple = new ClaimsPrincipal(claimsIdentity);
+
+                            await HttpContext.SignInAsync(claimsPrinciple);
+
+                            if(Url.IsLocalUrl(returnUrl))
+                            {
+                                return Redirect(returnUrl);
+                            } else
+                            {
+                                return Redirect("/");
+                            }
+                        }
+                    }
+                }
+            }
+
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ECommerceMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using ECommerceMVC.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,12 @@ builder.Services.AddDbContext<Hshop2023Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("HShop"));
 });
 builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/Customer/LogIn";
+    options.AccessDeniedPath = "/AccessDenied";
+});
 
 builder.Services.AddSession(options =>
 {
@@ -36,6 +43,7 @@ app.UseRouting();
 
 app.UseSession();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
