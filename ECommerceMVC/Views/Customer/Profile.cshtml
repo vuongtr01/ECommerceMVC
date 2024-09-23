@@ -3,11 +3,10 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="container">
-    <h1>User Profile</h1>
-
-    <h2>Welcome @Context.User.Identity.Name</h2>
-    <a asp-controller="Customer" asp-action="Logout">Logout</a>
-
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <h2>Welcome @Context.User.Identity.Name</h2>
+        <a asp-controller="Customer" asp-action="Logout">Logout</a>
+    </div>
 </div>
 
