@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<Hshop2023Context>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("HShop"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("HShop") ?? Environment.GetEnvironmentVariable("HShopProd"));
 });
 builder.Services.AddDistributedMemoryCache();
 
